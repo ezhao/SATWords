@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 public class MainActivity extends ActionBarActivity {
 
     @Override
@@ -16,7 +18,8 @@ public class MainActivity extends ActionBarActivity {
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        Word word = new Word("hello", "n. this is just a test.");
+        ArrayList<Word> words = Word.fromTxtFile(this);
+        Word word = words.get(10);
         ft.replace(R.id.flFragment, WordFragment.newInstance(word));
         ft.commit();
     }
