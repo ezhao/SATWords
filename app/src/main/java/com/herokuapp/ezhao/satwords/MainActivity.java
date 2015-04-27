@@ -1,27 +1,29 @@
 package com.herokuapp.ezhao.satwords;
 
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import java.util.ArrayList;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class MainActivity extends ActionBarActivity {
+    @InjectView(R.id.vpFragments) ViewPager vpFragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.inject(this);
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
         ArrayList<Word> words = Word.fromTxtFile(this);
-        Word word = words.get(10);
-        ft.replace(R.id.flFragment, WordFragment.newInstance(word));
-        ft.commit();
+        FragmentManager fm = getSupportFragmentManager();
+        WordPagerAdapter wordPagerAdapter = new WordPagerAdapter(fm, words);
+        vpFragments.setAdapter(wordPagerAdapter);
+        vpFragments.setCurrentItem(11);
     }
 
     @Override
